@@ -7,11 +7,11 @@ const mtxInput2 = [];
 const multiplyBtn = document.querySelector('.multiply');
 const multiplyReset = document.querySelector('.reset-matrices');
 
-const mtxRows1 = document.querySelector('#mtx1-rows');
-const mtxCols1 = document.querySelector('#mtx1-cols');
+const mtxRows1 = typeof document.querySelector('#mtx1-rows').value === 'number' ? document.querySelector('#mtx1-rows').value : 4;
+const mtxCols1 = typeof document.querySelector('#mtx1-cols').value === 'number' ? document.querySelector('#mtx1-cols').value : 2;
 
-const mtxRows2 = document.querySelector('#mtx2-rows');
-const mtxCols2 = document.querySelector('#mtx2-cols');
+const mtxRows2 = document.querySelector('#mtx2-rows').value === 'number' ? document.querySelector('#mtx2-rows').value : 2;
+const mtxCols2 = document.querySelector('#mtx2-cols').value === 'number' ? document.querySelector('#mtx2-rows').value : 4;
 
 // transpose page
 const resetTranspose = document.querySelector('.reset-transpose');
