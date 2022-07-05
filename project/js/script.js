@@ -3,6 +3,7 @@
 const mtxInput1 = [];
 const mtxInput2 = [];
 
+
 // Matrix multiply page
 const multiplyBtn = document.querySelector('.multiply');
 const multiplyReset = document.querySelector('.reset-matrices');
