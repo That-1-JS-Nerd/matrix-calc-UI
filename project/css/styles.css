@@ -25,9 +25,13 @@ body {
 
 .navbar > ul {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     list-style-type: none;
 }
 
 .navbar > ul > li {
+    color: #fff;
+    font-size: 18px;
     text-decoration: none;
 }
