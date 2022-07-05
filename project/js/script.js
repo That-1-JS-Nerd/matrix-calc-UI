@@ -3,10 +3,15 @@
 const mtxInput1 = [];
 const mtxInput2 = [];
 
-
 // Matrix multiply page
 const multiplyBtn = document.querySelector('.multiply');
 const multiplyReset = document.querySelector('.reset-matrices');
+
+const mtxRows1 = document.querySelector('#mtx1-rows');
+const mtxCols1 = document.querySelector('#mtx1-cols');
+
+const mtxRows2 = document.querySelector('#mtx2-rows');
+const mtxCols2 = document.querySelector('#mtx2-cols');
 
 // transpose page
 const resetTranspose = document.querySelector('.reset-transpose');
@@ -64,8 +69,8 @@ const Matrix = {
     }
 };
 
-function createMatrix1(rows, cols) {
-    const parent = document.querySelector('.grid-1');
+function createMatrix(rows, cols, parent) {
+    const parent = document.querySelector(`.grid-${parent}`);
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
             const cell = document.createElement('div');
@@ -75,4 +80,7 @@ function createMatrix1(rows, cols) {
     }
 }
 
-createMatrix1(mtxInput1.length, mtxInput2.length);
+const matrix = Matrix;
+
+createMatrix(mtxRows1, mtxCols1, 1);
+createMatrix(mtxRows2, mtxCols2, 2);
