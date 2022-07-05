@@ -80,7 +80,20 @@ function createMatrix(rows, cols, parentInt) {
     }
 }
 
+function createTransposeGrid(rows, cols) {
+    const parentDiv = document.querySelector('.transpose-grid');
+    for (let n = 0; n < rows; n++) {
+        for (let k = 0; k < cols; k++) {
+            const cell = document.createElement('div');
+            cell.setAttribute('style', 'padding: 10px 20px; border: 2px solid #000');
+            parentDiv.appendChild(cell);
+        }
+    }
+}
+
 const matrix = Matrix;
 
 createMatrix(mtxRows1, mtxCols1, 1);
 createMatrix(mtxRows2, mtxCols2, 2);
+
+createTransposeGrid(mtxRows1, mtxCols1);
