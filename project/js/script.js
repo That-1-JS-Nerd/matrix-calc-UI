@@ -69,8 +69,8 @@ const Matrix = {
     }
 };
 
-function createMatrix(rows, cols, parent) {
-    const parent = document.querySelector(`.grid-${parent}`);
+function createMatrix(rows, cols, parentInt) {
+    const parent = document.querySelector(`.grid-${parentInt}`);
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
             const cell = document.createElement('div');
