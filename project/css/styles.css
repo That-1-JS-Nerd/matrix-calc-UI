@@ -13,5 +13,13 @@ body {
     height: 100vh;
 }
 
-
+.navbar {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 10px 20px;
+    background-color: rgb(22, 21, 21);
+    border: none;
+    width: 100%;
+}
 
