@@ -1,99 +1,146 @@
 'use-strict';
 
-const mtxInput1 = [];
-const mtxInput2 = [];
+let matrixData_1 = [];
+let matrixData_2 = [];
 
-// Matrix multiply page
-const multiplyBtn = document.querySelector('.multiply');
-const multiplyReset = document.querySelector('.reset-matrices');
+const btnMultiply = document.querySelector('.btn-multiply');
+const btnCreate = document.querySelector('.create-grid');
+const btnReset = document.querySelector('.reset-matrices');
+const btnAuto = document.querySelector('.auto-fill');
+const btnClear = document.querySelector('.value-reset');
 
-const mtxRows1 = typeof document.querySelector('#mtx1-rows').value === 'number' ? document.querySelector('#mtx1-rows').value : 4;
-const mtxCols1 = typeof document.querySelector('#mtx1-cols').value === 'number' ? document.querySelector('#mtx1-cols').value : 2;
+const userRow1 = document.querySelector('#mtx1-rows');
+const userCol1 = document.querySelector('#mtx1-cols');
 
-const mtxRows2 = document.querySelector('#mtx2-rows').value === 'number' ? document.querySelector('#mtx2-rows').value : 2;
-const mtxCols2 = document.querySelector('#mtx2-cols').value === 'number' ? document.querySelector('#mtx2-rows').value : 4;
+const userRow2 = document.querySelector('#mtx2-rows');
+const userCol2 = document.querySelector('#mtx2-cols');
 
-// transpose page
-const resetTranspose = document.querySelector('.reset-transpose');
-const transposeBtn = document.querySelector('.transpose');
+let created = false;
 
+userRow1.value = 4;
+userCol1.value = 3;
 
-const Matrix = {
-    transpose: function(matrix) {
-        if (!this.isValidMatrix(matrix)) return "Invalid Matrix";
+userRow2.value = 3;
+userCol2.value = 4;
 
-        let transposed = [];
-        let row;
+const DEFAULT_R = 6;
+const DEFAULT_C = 5;
 
-        // i <= matrix.length I think
-        for (let i = 0; i < matrix.length; i++) {
-            row = [];
-            for (let j = 0; j < matrix.length; j++) {
-                if (matrix[j][i]) row.push(matrix[j][i]);
-            }
-            transposed.push(row);
+// Convert user input array into appropriate matrix format
+Array.prototype.toMatrix = function(el) {
+    if (!this.length || this.length % el !== 0) return null;
+
+    let mtx = [], i, k;
+    for (i = 0, k = -1; i < this.length; i++) {
+        if (i % el === 0) {
+            k++;
+            mtx[k] = [];
         }
-        return transposed.filter(arr => arr.length);
-    },
-
-    isValidMatrix: function(matrix) {
-        const length = matrix[0].length;
-        return matrix.every(el => el.length === length);
-    },
-
-    isValidMatrices: function(arr1, arr2) {
-        if (!this.isValidMatrix(arr1) || !this.isValidMatrix(arr2)) return [];
-
-        let validRows = arr1.length == arr2[0].length;
-        let validCols = arr1[0].length === arr2.length;
-
-        return validRows && validCols;
-    },
-
-    multiply: function(matrix1, matrix2) {
-        if (!this.isValidMatrices(matrix1, matrix2)) return null;
-
-        const resMtx = [];
-        for (let j = 0; j < matrix1.length; j++) {
-            const res = [];
-            for (let k = 0; k < matrix.length; k++) {
-                let ct = 0;
-                for (let n = 0; n < matrix1[j].length; n++) {
-                    ct += matrix1[j][n] * matrix2[n][k];
-                }
-                res.push(ct);
-            }
-            resMtx.push(res);
-        }
-        return resMtx;
+        mtx[k].push(this[i]);
     }
-};
+    return mtx;
+}
 
-function createMatrix(rows, cols, parentInt) {
-    const parent = document.querySelector(`.grid-${parentInt}`);
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
-            const cell = document.createElement('div');
-            cell.setAttribute('style', 'padding: 10px 20px; border: 2px solid #000');
+function multiply(matrix1, matrix2) {
+    const resMtx = [];
+    for (let j = 0; j < matrix1.length; j++) {
+        const res = [];
+        for (let k = 0; k < matrix1.length; k++) {
+            let ct = 0;
+            for (let n = 0; n < matrix1[j].length; n++) {
+                ct += matrix1[j][n] * matrix2[n][k];
+            }
+            res.push(ct);
+        }
+        resMtx.push(res);
+    }
+    return resMtx;
+}
+
+function completeReset() {
+    created = false;
+    document.querySelector('.grid-1').innerHTML = '';
+    document.querySelector('.grid-2').innerHTML = '';
+    document.querySelector('.symbol').textContent = '';
+}
+
+function createMatrix(rows, cols, int) {
+    const parent = document.querySelector(`.grid-${int}`);
+    parent.style.width = `${cols * 50}px`;
+    document.querySelector('.symbol').textContent = 'X';
+    for (let i = 0; i < cols * rows; i++) {
+        const cell = document.createElement('input');
+        cell.setAttribute('type', 'text');
+        cell.classList.add('cell');
+        parent.appendChild(cell);
+    }
+}
+
+function autoFill() {
+    const cells = document.querySelectorAll('.cell');
+    if (!cells.length) return;
+
+    if (matrixData_1.length && matrixData_2.length) {
+        matrixData_1 = [];
+        matrixData_2 = [];
+    }
+
+    cells.forEach(
+        (_, idx) => {
+            cells[idx].value = Math.floor(Math.random() * 100) + 1;
+            if (idx < cells.length / 2) {
+                matrixData_1.push(cells[idx].value);
+            } else {
+                matrixData_2.push(cells[idx].value);
+            }
+        }
+    );
+}
+
+function createResult(matrix, parent) {
+    for (let j = 0; j < matrix.length; j++) {
+        for (let k = 0; k < matrix[j].length; k++) {
+            const cell = document.createElement('input');
+            cell.setAttribute('type', 'text');
+            cell.classList.add('cell-res');
+            cell.value = matrix[j][k];
             parent.appendChild(cell);
         }
     }
 }
 
-function createTransposeGrid(rows, cols) {
-    const parentDiv = document.querySelector('.transpose-grid');
-    for (let n = 0; n < rows; n++) {
-        for (let k = 0; k < cols; k++) {
-            const cell = document.createElement('div');
-            cell.setAttribute('style', 'padding: 10px 20px; border: 2px solid #000');
-            parentDiv.appendChild(cell);
-        }
-    }
-}
+btnCreate.addEventListener('click', () => {
+    if (created) return;
+    created = true;
 
-const matrix = Matrix;
+    createMatrix(userRow1.value, userCol1.value, 1);
+    createMatrix(userRow2.value, userCol2.value, 2);
+});
 
-createMatrix(mtxRows1, mtxCols1, 1);
-createMatrix(mtxRows2, mtxCols2, 2);
+btnMultiply.addEventListener('click', () => {
+    const parent = document.querySelector(`.result-mtx`);
+    parent.innerHTML = '';
+    if (!matrixData_1.length && !matrixData_2.length) return;
 
-createTransposeGrid(mtxRows1, mtxCols1);
+    const matrix_1 = matrixData_1.toMatrix(userCol1.value);
+    const matrix_2 = matrixData_2.toMatrix(userCol2.value);
+    const resMtx = multiply(matrix_1, matrix_2);
+
+    parent.style.width = `${userRow1.value * 50}px`;
+
+    createResult(resMtx, parent);
+});
+
+btnClear.addEventListener('click', () => {
+    const cells = document.querySelectorAll('.cell');
+
+    if (!cells.length) return;
+
+    matrixData_1 = [];
+    matrixData_2 = [];
+
+    cells.forEach(cell => cell.value = null);
+});
+
+btnAuto.addEventListener('click', autoFill);
+btnReset.addEventListener('click', completeReset);
