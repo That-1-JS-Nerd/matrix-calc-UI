@@ -6,8 +6,46 @@
     margin: 0;
 }
 
-body {
+/* Button styles */
+.btn {
+    width: 200px;
+    font-weight: 800;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    margin: 5px;
+    border: none;
+    padding: 5px 10px;
+}
+
+.btn-reset {
+    background: rgb(240, 135, 16);
+}
+
+.btn-reset:hover {
+    background: rgba(240, 135, 16, 0.6);
+    cursor: pointer;
+}
+
+.btn-grid {
+    background: rgb(26, 27, 27);
     color: #fff;
+}
+
+.btn-grid:hover {
+    background: rgba(26, 27, 27, 0.6);
+    cursor: pointer;
+}
+
+.btn-multiply {
+    background: rgb(201, 3, 3);
+}
+
+.btn-multiply:hover {
+    background: rgba(201, 3, 3, 0.6);
+    cursor: pointer;
+}
+
+body {
     background-color: rgb(255, 255, 255);
     width: 100vw;
     height: 100vh;
@@ -17,21 +55,84 @@ body {
     display: flex;
     flex-direction: row;
     margin: 0;
-    padding: 10px 20px;
+    padding: 20px 20px;
     background-color: rgb(22, 21, 21);
     border: none;
     width: 100%;
 }
 
 .navbar > ul {
+    width: 300px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     list-style-type: none;
 }
 
-.navbar > ul > li {
+.navbar > ul > li > a {
     color: #fff;
     font-size: 18px;
     text-decoration: none;
+}
+
+.container {
+    width: 50%;
+    margin: auto;
+}
+
+.warning {
+    background: rgba(201, 3, 3, 0.6);
+    width: 50px;
+    height: 100px;
+}
+
+.matrix-1,
+.matrix-2 {
+    margin: 20px 10px;
+}
+
+.text-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.grid-sect {
+    display: flex;
+    width: 80%;
+    justify-content: space-evenly;
+    align-items: center;
+    min-height: 200px;
+}
+
+.grid-1 {
+    margin: 40px 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.btn-sect {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: flex-start;
+}
+
+.result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 200px;
+}
+
+.result-mtx {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cell,
+.cell-res {
+    border: 2px solid #000;
+    width: 50px;
+    padding: 5px 5px;
 }
